@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { PlusIcon, PencilIcon, Trash2Icon, XIcon, ImageIcon } from "lucide-react";
+import {
+  PlusIcon,
+  PencilIcon,
+  Trash2Icon,
+  XIcon,
+  ImageIcon,
+} from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { productApi } from "../lib/api";
 import { getStockStatusBadge } from "../lib/utils";
@@ -107,10 +113,14 @@ function ProductsPage() {
     formDataToSend.append("category", formData.category);
 
     // only append new images if they were selected
-    if (images.length > 0) images.forEach((image) => formDataToSend.append("images", image));
+    if (images.length > 0)
+      images.forEach((image) => formDataToSend.append("images", image));
 
     if (editingProduct) {
-      updateProductMutation.mutate({ id: editingProduct._id, formData: formDataToSend });
+      updateProductMutation.mutate({
+        id: editingProduct._id,
+        formData: formDataToSend,
+      });
     } else {
       createProductMutation.mutate(formDataToSend);
     }
@@ -122,9 +132,14 @@ function ProductsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Products</h1>
-          <p className="text-base-content/70 mt-1">Manage your product inventory</p>
+          <p className="text-base-content/70 mt-1">
+            Manage your product inventory
+          </p>
         </div>
-        <button onClick={() => setShowModal(true)} className="btn btn-primary gap-2">
+        <button
+          onClick={() => setShowModal(true)}
+          className="btn btn-primary gap-2"
+        >
           <PlusIcon className="w-5 h-5" />
           Add Product
         </button>
@@ -149,9 +164,13 @@ function ProductsPage() {
                     <div className="flex items-start justify-between">
                       <div>
                         <h3 className="card-title">{product.name}</h3>
-                        <p className="text-base-content/70 text-sm">{product.category}</p>
+                        <p className="text-base-content/70 text-sm">
+                          {product.category}
+                        </p>
                       </div>
-                      <div className={`badge ${status.class}`}>{status.text}</div>
+                      <div className={`badge ${status.class}`}>
+                        {status.text}
+                      </div>
                     </div>
                     <div className="flex items-center gap-6 mt-4">
                       <div>
@@ -160,7 +179,9 @@ function ProductsPage() {
                       </div>
                       <div>
                         <p className="text-xs text-base-content/70">Stock</p>
-                        <p className="font-bold text-lg">{product.stock} units</p>
+                        <p className="font-bold text-lg">
+                          {product.stock} units
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -201,7 +222,10 @@ function ProductsPage() {
               {editingProduct ? "Edit Product" : "Add New Product"}
             </h3>
 
-            <button onClick={closeModal} className="btn btn-sm btn-circle btn-ghost">
+            <button
+              onClick={closeModal}
+              className="btn btn-sm btn-circle btn-ghost"
+            >
               <XIcon className="w-5 h-5" />
             </button>
           </div>
@@ -218,7 +242,9 @@ function ProductsPage() {
                   placeholder="Enter product name"
                   className="input input-bordered"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -230,14 +256,16 @@ function ProductsPage() {
                 <select
                   className="select select-bordered"
                   value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, category: e.target.value })
+                  }
                   required
                 >
                   <option value="">Select category</option>
-                  <option value="Electronics">Electronics</option>
-                  <option value="Accessories">Accessories</option>
-                  <option value="Fashion">Fashion</option>
-                  <option value="Sports">Sports</option>
+                  <option value="Mobile">Mobile Phones</option>
+                  <option value="Earphones">Earphones</option>
+                  <option value="Laptops">Laptops</option>
+                  <option value="Watch">Watches</option>
                 </select>
               </div>
             </div>
@@ -253,7 +281,9 @@ function ProductsPage() {
                   placeholder="0.00"
                   className="input input-bordered"
                   value={formData.price}
-                  onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, price: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -267,7 +297,9 @@ function ProductsPage() {
                   placeholder="0"
                   className="input input-bordered"
                   value={formData.stock}
-                  onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, stock: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -281,7 +313,9 @@ function ProductsPage() {
                 className="textarea textarea-bordered h-24 w-full"
                 placeholder="Enter product description"
                 value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
                 required
               />
             </div>
@@ -292,7 +326,9 @@ function ProductsPage() {
                   <ImageIcon className="h-5 w-5" />
                   Product Images
                 </span>
-                <span className="label-text-alt text-xs opacity-60">Max 3 images</span>
+                <span className="label-text-alt text-xs opacity-60">
+                  Max 3 images
+                </span>
               </label>
 
               <div className="bg-base-200 rounded-xl p-4 border-2 border-dashed border-base-300 hover:border-primary transition-colors">
@@ -330,7 +366,10 @@ function ProductsPage() {
                 type="button"
                 onClick={closeModal}
                 className="btn"
-                disabled={createProductMutation.isPending || updateProductMutation.isPending}
+                disabled={
+                  createProductMutation.isPending ||
+                  updateProductMutation.isPending
+                }
               >
                 Cancel
               </button>
@@ -338,9 +377,13 @@ function ProductsPage() {
               <button
                 type="submit"
                 className="btn btn-primary"
-                disabled={createProductMutation.isPending || updateProductMutation.isPending}
+                disabled={
+                  createProductMutation.isPending ||
+                  updateProductMutation.isPending
+                }
               >
-                {createProductMutation.isPending || updateProductMutation.isPending ? (
+                {createProductMutation.isPending ||
+                updateProductMutation.isPending ? (
                   <span className="loading loading-spinner"></span>
                 ) : editingProduct ? (
                   "Update Product"
